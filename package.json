@@ -1,0 +1,22 @@
+{
+  "name": "constructor-hangman",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndyNguyen123/Constructor-Hangman.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndyNguyen123/Constructor-Hangman/issues"
+  },
+  "homepage": "https://github.com/AndyNguyen123/Constructor-Hangman#readme",
+  "dependencies": {
+    "inquirer": "^6.0.0"
+  }
+}
