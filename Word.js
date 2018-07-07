@@ -10,10 +10,11 @@ Word.prototype.checkAllLetter = function (letterInput) {
     this.letterArray.map(element => element.checker(letterInput));
 }
 
-module.exports.game = {
-    Letter,
-    Word,
-}
+module.exports = Word;
+
+let chosenWord = new Word('andeptrai');
+chosenWord.checkAllLetter('a');
+console.log(chosenWord.displayWord());
 
 
 

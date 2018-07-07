@@ -1,16 +1,19 @@
-const game = require('./Word.js');
+const Letter = require('./Letter.js');
+const Word = require('./Word.js');
 const inquirer = require('inquirer');
 const ud = require('urban-dictionary')
 
+
 function displayGameHeader(entry) {
     console.log(
-        `-------------------------------------------------------------------------------
-        In this game you will guess an "urban" word based on the definition provided.
-        Good luck!!!!!
-        
-        Definition: ${entry.definition}
+        `
+-------------------------------------------------------------------------------
+In this game you will guess an "urban" word based on the definition provided.
+Good luck!!!!!
+
+Definition: ${entry.definition}
         `)
-}
+};
 
 function inquirerGuessLetter() {
     inquirer.prompt([
@@ -22,12 +25,22 @@ function inquirerGuessLetter() {
         .then(function (answer) {
             console.log(answer.guessLetter);
         });
+};
+
+function displayWordHolder(word) {
+    const chosenWord = new Word(word);
+    return chosenWord.displayWord();
 }
 
-playGame();
+
 function playGame() {
     return getUrbanWord()
-        .then((entry) => displayGameHeader(entry))
+        .then((entry) => {
+            displayGameHeader(entry);
+            console.log(displayWordHolder(entry.word));
+            inquirerGuessLetter();
+
+        })
         .catch((error) => console.error(error));
 };
 
@@ -38,9 +51,10 @@ function getUrbanWord() {
             if (error) {
                 reject(error.message);
             } else {
-                // console.log(entry);
                 resolve(entry);
             };
         });
     });
 };
+
+playGame();

@@ -4,7 +4,7 @@ function Letter(letter) {
 };
 Letter.prototype.displayLetter = function() {
     if(this.isGuessed) return this.string;
-    else return '_';
+    else return '-';
 };
 Letter.prototype.checker = function(letterInput) {
     if(this.string == letterInput) this.isGuessed = true
