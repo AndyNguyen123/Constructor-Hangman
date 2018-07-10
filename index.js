@@ -15,7 +15,7 @@ Definition: ${definition}
         `)
 };
 
-function letterGuessed() {
+function getLetter() {
     return new Promise((resolve, reject) => {
         return inquirer
             .prompt([
@@ -30,12 +30,12 @@ function letterGuessed() {
     });
 };
 
-function displayWordHolderOf(word) {
-    const chosenWord = new Word(word);
-    const display = chosenWord.displayWord();
-    console.log(display);
-    return display;
-};
+// function displayWordHolderOf(word) {
+//     const chosenWord = new Word(word);
+//     const display = chosenWord.displayWord();
+//     console.log(display);
+//     return display;
+// };
 
 function getUrbanWord() {
     return new Promise((resolve, reject) => {
@@ -49,24 +49,38 @@ function getUrbanWord() {
     });
 };
 
+function getLetterInputAndUpdateWord(urbanWord) {
+    let correctGuessCount = 0;
+    if(correctGuessCount < urbanWord.letterArray.length){
+
+        getLetter()
+            .then((letterInput) => {
+                if (urbanWord.letterArray.includes(letterInput)) {
+                    console.log('Correct!!!');
+                    correctGuessCount++;
+                }
+                else console.log('Incorrect!!!');
+                urbanWord.checkAllLetter(letterInput);
+                urbanWord.displayWord();
+                getLetterInputAndUpdateWord(urbanWord);
+            })
+            .catch((err) => console.error(err));
+    } else console.log('Congrats!')
+}
+
 function playGame() {
-    let urbanWord = '', definition = '', example = '';
+    let urbanWord = {}, definition = '', example = '';
     return getUrbanWord()
         .then((entry) => {
 
-            urbanWord = entry.word;
+            urbanWord = new Word(entry.word);
+            console.log(urbanWord);
             definition = entry.definition;
             example = entry.example;
 
             displayGameHeaderWith(definition);
-            displayWordHolderOf(urbanWord);
-            letterGuessed()
-                .then((letter) => {
-                    if()
-                    new Word(urbanWord).checkAllLetter(letter);
-                    displayWordHolderOf(urbanWord);
-                })
-                .catch((err) => console.error(err));
+            urbanWord.displayWord();
+            getLetterInputAndUpdateWord(urbanWord);
 
         })
         .catch((err) => console.error(err));

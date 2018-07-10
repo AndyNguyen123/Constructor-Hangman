@@ -1,13 +1,13 @@
 function Letter(letter) {
-    this.string = letter;
+    this.letter = letter;
     this.isGuessed = false;
 };
 Letter.prototype.displayLetter = function() {
-    if(this.isGuessed) return this.string;
+    if (this.isGuessed) return this.letter;
     else return '-';
 };
 Letter.prototype.checker = function(letterInput) {
-    if(this.string == letterInput) this.isGuessed = true
+    if (this.letter == letterInput) this.isGuessed = true
     else this.isGuessed == false;
 };
 
