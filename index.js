@@ -50,17 +50,15 @@ function getUrbanWord() {
 };
 
 function getLetterInputAndUpdateWord(urbanWord) {
-    let correctGuessCount = 0;
+    const correctGuessCount = urbanWord.letterObjectArray.map(element => element.isGuessed).filter(element => element === true).length
     if(correctGuessCount < urbanWord.letterArray.length){
-
         getLetter()
             .then((letterInput) => {
+                urbanWord.checkAllLetter(letterInput);
                 if (urbanWord.letterArray.includes(letterInput)) {
                     console.log('Correct!!!');
-                    correctGuessCount++;
                 }
                 else console.log('Incorrect!!!');
-                urbanWord.checkAllLetter(letterInput);
                 urbanWord.displayWord();
                 getLetterInputAndUpdateWord(urbanWord);
             })
@@ -73,8 +71,7 @@ function playGame() {
     return getUrbanWord()
         .then((entry) => {
 
-            urbanWord = new Word(entry.word);
-            console.log(urbanWord);
+            urbanWord = new Word(entry.word.toLowerCase());
             definition = entry.definition;
             example = entry.example;
 
