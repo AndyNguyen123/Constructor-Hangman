@@ -30,13 +30,6 @@ function getLetter() {
     });
 };
 
-// function displayWordHolderOf(word) {
-//     const chosenWord = new Word(word);
-//     const display = chosenWord.displayWord();
-//     console.log(display);
-//     return display;
-// };
-
 function getUrbanWord() {
     return new Promise((resolve, reject) => {
         return ud.random(function (error, entry) {
@@ -53,7 +46,8 @@ function getLetterInputAndUpdateWord(urbanWord) {
     const correctGuessCount = urbanWord.letterObjectArray.map(element => element.isGuessed).filter(element => element === true).length
     if(correctGuessCount < urbanWord.letterArray.length){
         getLetter()
-            .then((letterInput) => {
+            .then((answer) => {
+                const letterInput = answer.toLowerCase();
                 urbanWord.checkAllLetter(letterInput);
                 if (urbanWord.letterArray.includes(letterInput)) {
                     console.log('Correct!!!');
@@ -72,7 +66,10 @@ function playGame() {
         .then((entry) => {
 
             urbanWord = new Word(entry.word.toLowerCase());
-            definition = entry.definition;
+            console.log(urbanWord.word);
+            let re = /`${urbanWord.word}`/gi;
+            definition = entry.definition.replace(urbanWord.word,'[]');
+            console
             example = entry.example;
 
             displayGameHeaderWith(definition);
