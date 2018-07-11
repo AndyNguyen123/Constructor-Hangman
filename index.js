@@ -42,9 +42,9 @@ function getUrbanWord() {
     });
 };
 
-function getLetterInputAndUpdateWord(urbanWord) {
+function getLetterInputAndUpdateWord(urbanWord, example) {
     const correctGuessCount = urbanWord.letterObjectArray.map(element => element.isGuessed).filter(element => element === true).length
-    if(correctGuessCount < urbanWord.letterArray.length){
+    if (correctGuessCount < urbanWord.letterArray.length) {
         getLetter()
             .then((answer) => {
                 const letterInput = answer.toLowerCase();
@@ -57,25 +57,28 @@ function getLetterInputAndUpdateWord(urbanWord) {
                 getLetterInputAndUpdateWord(urbanWord);
             })
             .catch((err) => console.error(err));
-    } else console.log('Congrats!')
+    } else {
+        console.log('\nCongrats!\n');
+        console.log(example);
+    }
 }
 
 function playGame() {
-    let urbanWord = {}, definition = '', example = '';
+    let udW = {}, def = '', ex = '';
     return getUrbanWord()
         .then((entry) => {
+            console.log(entry);
+            udW = new Word(entry.word.toLowerCase());
 
-            urbanWord = new Word(entry.word.toLowerCase());
-            console.log(urbanWord.word);
-            let re = /`${urbanWord.word}`/gi;
-            definition = entry.definition.replace(urbanWord.word,'[]');
-            console
-            example = entry.example;
+            //using regex to replace the keyword in the definition to []
+            let re = new RegExp(udW.word, "gi")
+            def = entry.definition.replace(re, '[]');
 
-            displayGameHeaderWith(definition);
-            urbanWord.displayWord();
-            getLetterInputAndUpdateWord(urbanWord);
-
+            ex = entry.example;
+            console.log(ex);
+            displayGameHeaderWith(def);
+            udW.displayWord();
+            getLetterInputAndUpdateWord(udW, ex);
         })
         .catch((err) => console.error(err));
 };
